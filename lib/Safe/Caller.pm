@@ -2,86 +2,106 @@ package Safe::Caller;
 
 use strict;
 use warnings;
+use boolean qw(true false);
 
 use Carp qw(croak);
 
-our $VERSION = '0.08';
+our $VERSION = '0.08_01';
 
 use constant FRAMES => 1;
 
 sub new
 {
-    my ($self, $frames) = @_;
+    my $class = shift;
+    my ($frames) = @_;
     $frames ||= FRAMES;
 
-    my $caller = sub {
-                          my ($f, $elem) = @_;
-                          my $frames = defined $f ? $f : $frames;
-                          return (caller($frames + 2))[$elem] || '';
-                     };
+    my $caller = sub
+    {
+        my ($f, $elem) = @_;
+        my $frames = defined $f ? $f : $frames;
+        return (caller($frames + 2))[$elem] || '';
+    };
 
-    # all fields required because we need to maintain backwards compatibility
-    my @sets = (['package','pkg'], ['filename', 'file'], 'line', ['subroutine', 'sub'],
-                 'hasargs', 'wantarray', 'evaltext', 'is_require', 'hints', 'bitmask');
+    # All fields required because we need
+    # to retain backwards compatibility.
+    my @sets = (
+        [qw(package pkg)],
+        [qw(filename file)],
+        'line',
+        [qw(subroutine sub)],
+        'hasargs',
+        'wantarray',
+        'evaltext',
+        'is_require',
+        'hints',
+        'bitmask'
+    );
 
-    my $i = 0; my %map;
+    my %fields;
+    my $i = 0;
     foreach my $set (@sets) {
-        foreach my $lookup (ref $set eq 'ARRAY' ? @$set : $set) {
-            $map{$lookup} = $i;
+        foreach my $name (ref $set eq 'ARRAY' ? @$set : $set) {
+            $fields{$name} = $i;
         }
         $i++;
     }
 
     my $accessors = {};
-    foreach my $type (keys %map) {
-        $accessors->{$type} = sub {
-                                       my $frames = shift;
-                                       return $caller->($frames, $map{$type})
-                                  };
+    foreach my $name (keys %fields) {
+        $accessors->{$name} = sub
+        {
+            my $frames = shift;
+            return $caller->($frames, $fields{$name});
+        };
     }
     $accessors->{_frames} = $frames;
 
-    return bless $accessors, ref($self) || $self;
+    return bless $accessors, ref($class) || $class;
 }
 
 sub called_from_package
 {
-    my ($self, $called_from_package) = @_;
-    croak 'usage: $caller->called_from_package(\'PACKAGE\');'
+    my $self = shift;
+    my ($called_from_package) = @_;
+    croak q(Usage: $caller->called_from_package('PACKAGE');)
       unless defined $called_from_package;
 
     return $self->{package}->() eq $called_from_package
-      ? 1 : 0;
+      ? true : false;
 }
 
 sub called_from_filename
 {
-    my ($self, $called_from_filename) = @_;
-    croak 'usage: $caller->called_from_filename(\'file\');'
+    my $self = shift;
+    my ($called_from_filename) = @_;
+    croak q(Usage: $caller->called_from_filename('file');)
       unless defined $called_from_filename;
 
     return $self->{filename}->() eq $called_from_filename
-      ? 1 : 0;
+      ? true : false;
 }
 
 sub called_from_line
 {
-    my ($self, $called_from_line) = @_;
-    croak 'usage: $caller->called_from_line(13);'
+    my $self = shift;
+    my ($called_from_line) = @_;
+    croak q(Usage: $caller->called_from_line(42);)
       unless defined $called_from_line && $called_from_line =~ /^\d+$/;
 
-    return $self->{line}->() eq $called_from_line
-      ? 1 : 0;
+    return $self->{line}->() == $called_from_line
+      ? true : false;
 }
 
 sub called_from_subroutine
 {
-    my ($self, $called_from_subroutine) = @_;
-    croak 'usage: $caller->called_from_subroutine(\'sub\');'
+    my $self = shift;
+    my ($called_from_subroutine) = @_;
+    croak q(Usage: $caller->called_from_subroutine('sub');)
       unless defined $called_from_subroutine;
 
     return $self->{subroutine}->($self->{_frames} + 1) eq $called_from_subroutine
-      ? 1 : 0;
+      ? true : false;
 }
 
 # backwards compatibility (deprecated)
@@ -146,35 +166,35 @@ See L<perlfunc/caller> for the values they are supposed to return.
 
 =head2 called_from_package
 
-Checks whether the current sub was called within the appropriate package.
+Checks whether the current sub was called within the given package.
 
  $caller->called_from_package('main');
 
-Returns 1 on success, 0 on failure.
+Returns true on success, false on failure.
 
 =head2 called_from_filename
 
-Checks whether the current sub was called within the appropriate filename.
+Checks whether the current sub was called within the given filename.
 
  $caller->called_from_filename('foobar.pl');
 
-Returns 1 on success, 0 on failure.
+Returns true on success, false on failure.
 
 =head2 called_from_line
 
-Checks whether the current sub was called on the appropriate line.
+Checks whether the current sub was called on the given line.
 
- $caller->called_from_line(13);
+ $caller->called_from_line(42);
 
-Returns 1 on success, 0 on failure.
+Returns true on success, false on failure.
 
 =head2 called_from_subroutine
 
-Checks whether the current sub was called by the appropriate subroutine.
+Checks whether the current sub was called by the given subroutine.
 
  $caller->called_from_subroutine('foo');
 
-Returns 1 on success, 0 on failure.
+Returns true on success, false on failure.
 
 =head1 SEE ALSO
 
@@ -189,6 +209,6 @@ Steven Schubiger <schubiger@cpan.org>
 This program is free software; you may redistribute it and/or
 modify it under the same terms as Perl itself.
 
-See L<http://www.perl.com/perl/misc/Artistic.html>
+See L<http://dev.perl.org/licenses/>
 
 =cut

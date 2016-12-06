@@ -22,11 +22,11 @@ CONSTRUCTOR
   new
      $caller = Safe::Caller->new(1);
 
-    Supplying how many frames to go back while running "caller" in perlfunc
-    is optional. By default (if no suitable value is supplied) 1 will be
-    assumed. The default will be shared among all method calls (accessors &
-    verification routines); the accessors may optionally accept a frame as
-    parameter, whereas verification routines ("called_from_*()") don't.
+    Supplying how many frames to go back while running perlfunc is optional.
+    By default (if no suitable value is supplied) 1 will be assumed. The
+    default will be shared among all method calls (accessors & verification
+    routines); the accessors may optionally accept a frame as parameter,
+    whereas verification routines (`called_from_*()') don't.
 
 METHODS
   Accessors
@@ -41,40 +41,38 @@ METHODS
      $caller->{hints}->();
      $caller->{bitmask}->();
 
-    See "caller" in perlfunc for the values they are supposed to return.
+    See perlfunc for the values they are supposed to return.
 
   called_from_package
-    Checks whether the current sub was called within the appropriate
-    package.
+    Checks whether the current sub was called within the given package.
 
      $caller->called_from_package('main');
 
-    Returns 1 on success, 0 on failure.
+    Returns true on success, false on failure.
 
   called_from_filename
-    Checks whether the current sub was called within the appropriate
-    filename.
+    Checks whether the current sub was called within the given filename.
 
      $caller->called_from_filename('foobar.pl');
 
-    Returns 1 on success, 0 on failure.
+    Returns true on success, false on failure.
 
   called_from_line
-    Checks whether the current sub was called on the appropriate line.
+    Checks whether the current sub was called on the given line.
 
-     $caller->called_from_line(13);
+     $caller->called_from_line(42);
 
-    Returns 1 on success, 0 on failure.
+    Returns true on success, false on failure.
 
   called_from_subroutine
-    Checks whether the current sub was called by the appropriate subroutine.
+    Checks whether the current sub was called by the given subroutine.
 
      $caller->called_from_subroutine('foo');
 
-    Returns 1 on success, 0 on failure.
+    Returns true on success, false on failure.
 
 SEE ALSO
-    "caller" in perlfunc, Perl6::Caller, Devel::Caller, Sub::Caller
+    perlfunc, Perl6::Caller, Devel::Caller, Sub::Caller
 
 AUTHOR
     Steven Schubiger <schubiger@cpan.org>
@@ -83,5 +81,5 @@ LICENSE
     This program is free software; you may redistribute it and/or modify it
     under the same terms as Perl itself.
 
-    See <http://www.perl.com/perl/misc/Artistic.html>
+    See http://dev.perl.org/licenses/
 

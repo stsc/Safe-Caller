@@ -1,5 +1,25 @@
 Revision history for Perl extension Safe::Caller.
 
+0.08_01  2016-12-06  <schubiger@cpan.org>
+
+ - Amend wording of documentation.
+
+ - Adapt error message emitted by verification routines.
+
+ - Update broken license link.
+
+ - Use the "boolean" pragma for true/false values.
+
+ - Explicitly shift class name/object from sub arguments.
+
+ - For called_from_line(), compare with numeric equality operator.
+
+ - Rename few variables.
+
+ - Adjust indentation of code.
+
+ - Quote object member caller in test file.
+
 0.08 Tue Feb  5 19:55:49 CET 2008
 
  - Use File::Spec within t/called_from.t to build paths.

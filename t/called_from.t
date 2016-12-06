@@ -37,7 +37,8 @@ package Base;
 
 sub new
 {
-    my ($class, $caller) = @_;
+    my $class = shift;
+    my ($caller) = @_;
     return bless { caller => $caller }, $class;
 }
 
@@ -53,7 +54,7 @@ use base qw(Base);
 sub bar
 {
     my $self = shift;
-    return map { $self->{caller}->{$_}->() } qw(package filename line subroutine pkg file sub);
+    return map { $self->{'caller'}->{$_}->() } qw(package filename line subroutine pkg file sub);
 }
 
 package Bar;
@@ -63,11 +64,11 @@ use base qw(Base);
 sub bar
 {
     my $self = shift;
-    return ($self->{caller}->called_from_package('Base'),
-            $self->{caller}->called_from_filename(File::Spec->catfile('t', 'called_from.t')),
-            $self->{caller}->called_from_line(46),
-            $self->{caller}->called_from_subroutine('Base::baz'),
-            $self->{caller}->called_from_pkg('Base'),
-            $self->{caller}->called_from_file(File::Spec->catfile('t', 'called_from.t')),
-            $self->{caller}->called_from_sub('Base::baz'));
+    return ($self->{'caller'}->called_from_package('Base'),
+            $self->{'caller'}->called_from_filename(File::Spec->catfile('t', 'called_from.t')),
+            $self->{'caller'}->called_from_line(47),
+            $self->{'caller'}->called_from_subroutine('Base::baz'),
+            $self->{'caller'}->called_from_pkg('Base'),
+            $self->{'caller'}->called_from_file(File::Spec->catfile('t', 'called_from.t')),
+            $self->{'caller'}->called_from_sub('Base::baz'));
 }
