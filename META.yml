@@ -1,9 +1,8 @@
 ---
-abstract: 'A nicer interface to the built-in caller()'
+abstract: 'Control code execution based upon caller()'
 author:
   - 'Steven Schubiger <schubiger@cpan.org>'
 build_requires:
-  Carp: '0'
   File::Spec: '0'
   Test::More: '0'
 configure_requires:
@@ -18,11 +17,12 @@ name: Safe-Caller
 provides:
   Safe::Caller:
     file: lib/Safe/Caller.pm
-    version: 0.08_01
-recommends:
-  Test::Pod: '1.14'
-  Test::Pod::Coverage: '1.04'
+    version: 0.08_02
+requires:
+  Carp: '0'
+  boolean: '0'
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.08_01
+  repository: https://github.com/stsc/Safe-Caller
+version: 0.08_02
 x_serialization_backend: 'CPAN::Meta::YAML version 0.012'

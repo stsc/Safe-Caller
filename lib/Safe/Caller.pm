@@ -6,7 +6,7 @@ use boolean qw(true false);
 
 use Carp qw(croak);
 
-our $VERSION = '0.08_01';
+our $VERSION = '0.08_02';
 
 use constant FRAMES => 1;
 
@@ -64,7 +64,7 @@ sub called_from_package
 {
     my $self = shift;
     my ($called_from_package) = @_;
-    croak q(Usage: $caller->called_from_package('PACKAGE');)
+    croak q(Usage: $caller->called_from_package('Package');)
       unless defined $called_from_package;
 
     return $self->{package}->() eq $called_from_package
@@ -97,7 +97,7 @@ sub called_from_subroutine
 {
     my $self = shift;
     my ($called_from_subroutine) = @_;
-    croak q(Usage: $caller->called_from_subroutine('sub');)
+    croak q(Usage: $caller->called_from_subroutine('Package::sub');)
       unless defined $called_from_subroutine;
 
     return $self->{subroutine}->($self->{_frames} + 1) eq $called_from_subroutine
@@ -114,7 +114,7 @@ __END__
 
 =head1 NAME
 
-Safe::Caller - A nicer interface to the built-in caller()
+Safe::Caller - Control code execution based upon caller()
 
 =head1 SYNOPSIS
 
@@ -141,10 +141,10 @@ Safe::Caller - A nicer interface to the built-in caller()
 
  $caller = Safe::Caller->new(1);
 
-Supplying how many frames to go back while running L<perlfunc/caller> is optional.
-By default (if no suitable value is supplied) 1 will be assumed. The default
+Providing how many frames to go back while running L<perlfunc/caller> is optional.
+By default (if no suitable value is provided) 1 will be assumed. The default
 will be shared among all method calls (accessors & verification routines);
-the accessors may optionally accept a frame as parameter, whereas verification
+the accessors may optionally accept a frame as argument, whereas verification
 routines (C<called_from_*()>) don't.
 
 =head1 METHODS
@@ -168,7 +168,7 @@ See L<perlfunc/caller> for the values they are supposed to return.
 
 Checks whether the current sub was called within the given package.
 
- $caller->called_from_package('main');
+ $caller->called_from_package('Package');
 
 Returns true on success, false on failure.
 
@@ -176,7 +176,7 @@ Returns true on success, false on failure.
 
 Checks whether the current sub was called within the given filename.
 
- $caller->called_from_filename('foobar.pl');
+ $caller->called_from_filename('file');
 
 Returns true on success, false on failure.
 
@@ -192,7 +192,7 @@ Returns true on success, false on failure.
 
 Checks whether the current sub was called by the given subroutine.
 
- $caller->called_from_subroutine('foo');
+ $caller->called_from_subroutine('Package::sub');
 
 Returns true on success, false on failure.
 

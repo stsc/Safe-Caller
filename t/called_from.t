@@ -39,7 +39,7 @@ sub new
 {
     my $class = shift;
     my ($caller) = @_;
-    return bless { caller => $caller }, $class;
+    return bless { 'caller' => $caller }, $class;
 }
 
 sub baz

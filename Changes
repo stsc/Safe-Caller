@@ -1,5 +1,24 @@
 Revision history for Perl extension Safe::Caller.
 
+0.08_02  2016-12-13  <schubiger@cpan.org>
+
+ - List "boolean" pragma as prerequisite.
+
+ - Adjust brief module description.
+
+ - Be consistent with argument specification of verification
+   routines.
+
+ - Minor documentation wording tweaks.
+
+ - Skip documentation tests for non-release testing.
+
+ - Do no longer recommend Test::Pod and Test::Pod::Coverage.
+
+ - Remove the testing diagnostic.
+
+ - Add metadata repository link.
+
 0.08_01  2016-12-06  <schubiger@cpan.org>
 
  - Amend wording of documentation.
