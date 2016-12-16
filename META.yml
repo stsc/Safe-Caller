@@ -17,12 +17,12 @@ name: Safe-Caller
 provides:
   Safe::Caller:
     file: lib/Safe/Caller.pm
-    version: 0.08_02
+    version: 0.08_03
 requires:
   Carp: '0'
   boolean: '0'
 resources:
   license: http://dev.perl.org/licenses/
   repository: https://github.com/stsc/Safe-Caller
-version: 0.08_02
+version: 0.08_03
 x_serialization_backend: 'CPAN::Meta::YAML version 0.012'

@@ -6,7 +6,7 @@ use boolean qw(true false);
 
 use Carp qw(croak);
 
-our $VERSION = '0.08_02';
+our $VERSION = '0.08_03';
 
 use constant FRAMES => 1;
 
@@ -129,8 +129,8 @@ Safe::Caller - Control code execution based upon caller()
  sub a { b() }
 
  sub b {
-     print $caller->{subroutine}->();
      if ($caller->called_from_subroutine('abc::a')) { # do stuff }
+     print $caller->{subroutine}->();
  }
 
 =head1 DESCRIPTION
@@ -143,26 +143,11 @@ Safe::Caller - Control code execution based upon caller()
 
 Providing how many frames to go back while running L<perlfunc/caller> is optional.
 By default (if no suitable value is provided) 1 will be assumed. The default
-will be shared among all method calls (accessors & verification routines);
-the accessors may optionally accept a frame as argument, whereas verification
-routines (C<called_from_*()>) don't.
+will be shared among all accessors and verification routines; the accessors
+may optionally accept a frame as argument, whereas verification routines
+(C<called_from_*()>) don't.
 
 =head1 METHODS
-
-=head2 Accessors
-
- $caller->{package}->();
- $caller->{filename}->();
- $caller->{line}->();
- $caller->{subroutine}->();
- $caller->{hasargs}->();
- $caller->{wantarray}->();
- $caller->{evaltext}->();
- $caller->{is_require}->();
- $caller->{hints}->();
- $caller->{bitmask}->();
-
-See L<perlfunc/caller> for the values they are supposed to return.
 
 =head2 called_from_package
 
@@ -195,6 +180,21 @@ Checks whether the current sub was called by the given subroutine.
  $caller->called_from_subroutine('Package::sub');
 
 Returns true on success, false on failure.
+
+=head1 ACCESSORS
+
+ $caller->{package}->();
+ $caller->{filename}->();
+ $caller->{line}->();
+ $caller->{subroutine}->();
+ $caller->{hasargs}->();
+ $caller->{wantarray}->();
+ $caller->{evaltext}->();
+ $caller->{is_require}->();
+ $caller->{hints}->();
+ $caller->{bitmask}->();
+
+See L<perlfunc/caller> for the values they are supposed to return.
 
 =head1 SEE ALSO
 

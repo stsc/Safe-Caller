@@ -1,5 +1,9 @@
 Revision history for Perl extension Safe::Caller.
 
+0.08_03  2016-12-16  <schubiger@cpan.org>
+
+ - Document accessors independently from methods.
+
 0.08_02  2016-12-13  <schubiger@cpan.org>
 
  - List "boolean" pragma as prerequisite.
