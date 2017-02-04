@@ -35,10 +35,10 @@
    "provides" : {
       "Safe::Caller" : {
          "file" : "lib/Safe/Caller.pm",
-         "version" : "0.08_03"
+         "version" : "0.09"
       }
    },
-   "release_status" : "testing",
+   "release_status" : "stable",
    "resources" : {
       "license" : [
          "http://dev.perl.org/licenses/"
@@ -47,6 +47,6 @@
          "url" : "https://github.com/stsc/Safe-Caller"
       }
    },
-   "version" : "0.08_03",
+   "version" : "0.09",
    "x_serialization_backend" : "JSON::PP version 2.27203"
 }

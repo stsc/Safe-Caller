@@ -6,7 +6,7 @@ use boolean qw(true false);
 
 use Carp qw(croak);
 
-our $VERSION = '0.08_03';
+our $VERSION = '0.09';
 
 use constant FRAMES => 1;
 
